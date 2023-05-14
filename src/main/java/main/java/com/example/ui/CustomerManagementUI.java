@@ -425,8 +425,7 @@ public class CustomerManagementUI {
             zipCodeField.setText(address.getZipCode()+"");
         } catch (Exception e) {
             System.out.println(e);
-            System.out.println("Customer not found");
-            JOptionPane.showMessageDialog(customerFrame, "Customer not found.", "Error!", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(customerFrame, "No records found", "Error!", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -457,7 +456,7 @@ public class CustomerManagementUI {
         System.out.println("Customer : " + customer);
 
         //Show popup
-        JOptionPane.showMessageDialog(customerFrame, "Customer added successfully.", "Success!", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(customerFrame, "Customer successfully included", "Success!", JOptionPane.INFORMATION_MESSAGE);
 
         // Clear fields after saving
         clearFields();
@@ -482,14 +481,13 @@ public class CustomerManagementUI {
             addressService.updateAddress(customer.getAddressId(), street, city, state, zipCode);
             
             //Show popup
-            JOptionPane.showMessageDialog(customerFrame, "Customer updated successfully.", "Success!", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(customerFrame, "Customer data successfully updated", "Success!", JOptionPane.INFORMATION_MESSAGE);
             clearFields();
             //update customers combo box
             customerComboBox.setModel(new DefaultComboBoxModel(getCustomers()));
         } catch (Exception e) {
             System.out.println(e);
-            System.out.println("Customer not found");
-            JOptionPane.showMessageDialog(customerFrame, "Customer not found.", "Error!", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(customerFrame, "No records found", "Error!", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -509,7 +507,7 @@ public class CustomerManagementUI {
             //update customers combo box
             customerComboBox.setModel(new DefaultComboBoxModel(getCustomers()));
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(customerFrame, "Customer not found.", "Error!", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(customerFrame, "No records found", "Error!", JOptionPane.ERROR_MESSAGE);
             System.out.println(e);
         }
     }
@@ -529,7 +527,7 @@ public class CustomerManagementUI {
             
         } catch (Exception e) {
             System.out.println(e);
-            JOptionPane.showMessageDialog(orderFrame, "Order not found.", "Error!", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(orderFrame, "No records found", "Error!", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -559,7 +557,7 @@ public class CustomerManagementUI {
         System.out.println("Price : " + price);
 
         //Show popup
-        JOptionPane.showMessageDialog(orderFrame, "Order added successfully.", "Success!", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(orderFrame, "Order successfully included", "Success!", JOptionPane.INFORMATION_MESSAGE);
 
         // Clear fields after saving
         clearFields();
@@ -579,11 +577,11 @@ public class CustomerManagementUI {
             customerOrderService.updateOrder(number, date, customer, item, price);
             
             //Show popup
-            JOptionPane.showMessageDialog(orderFrame, "Order updated successfully.", "Success!", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(orderFrame, "Order data successfully updated", "Success!", JOptionPane.INFORMATION_MESSAGE);
             clearFields();
         } catch (Exception e) {
             System.out.println(e);
-            JOptionPane.showMessageDialog(orderFrame, "Order not found.", "Error!", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(orderFrame, "No records found", "Error!", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -596,10 +594,10 @@ public class CustomerManagementUI {
             customerOrderService.deleteOrder(number);
 
             //popup success
-            JOptionPane.showMessageDialog(orderFrame, "Order deleted successfully.", "Success!", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(orderFrame, "Order successfully deleted", "Success!", JOptionPane.INFORMATION_MESSAGE);
             clearFields();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(orderFrame, "Order not found.", "Error!", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(orderFrame, "No records found", "Error!", JOptionPane.ERROR_MESSAGE);
             System.out.println(e);
         }
     }
