@@ -2,6 +2,9 @@ package com.example.dao;
 
 import com.example.model.Customer;
 import com.example.util.HibernateUtil;
+
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -71,6 +74,17 @@ public class CustomerDAO {
 
             //commit if no errors
             session.getTransaction().commit();
+        }
+    }
+
+    public List<Customer> getCustomers()
+    {
+        try(Session session = HibernateUtil.getSessionFactory().openSession())
+        {
+            //get customer with hql
+            String hql = "FROM Customer";
+            Query<Customer> query = session.createQuery(hql, Customer.class);
+            return query.list();
         }
     }
 }

@@ -68,4 +68,9 @@ public class Customer {
     {
         return address.getId();
     }
+
+    public String toString()
+    {
+        return "" + name;
+    }
 }

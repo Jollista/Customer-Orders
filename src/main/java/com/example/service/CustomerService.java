@@ -1,5 +1,7 @@
 package com.example.service;
 
+import java.util.List;
+
 import com.example.dao.CustomerDAO;
 import com.example.model.Customer;
 
@@ -30,5 +32,12 @@ public class CustomerService {
         Customer cust = customerDAO.getCustomer(name);
         customerDAO.deleteCustomer(name);
         return cust;
+    }
+
+    public Customer[] getCustomers()
+    {
+        List<Customer> customers = customerDAO.getCustomers();
+        Customer[] cust = new Customer[1];
+        return customers.toArray(cust);
     }
 }
