@@ -264,16 +264,7 @@ public class CustomerManagementUI {
         JOptionPane.showMessageDialog(customerFrame, "Customer added successfully.", "Success!", JOptionPane.INFORMATION_MESSAGE);
 
         // Clear fields after saving
-        nameField.setText("");
-        phoneField.setText("");
-        emailField.setText("");
-        streetField.setText("");
-        cityField.setText("");
-        stateField.setText("");
-        zipCodeField.setText("");
-        orderDateField.setText("");
-        itemField.setText("");
-        priceField.setText("");
+        clearFields();
     }
 
     private void updateCustomer()
@@ -294,7 +285,7 @@ public class CustomerManagementUI {
             
             //Show popup
             JOptionPane.showMessageDialog(customerFrame, "Customer updated successfully.", "Success!", JOptionPane.INFORMATION_MESSAGE);
-
+            clearFields();
         } catch (Exception e) {
             System.out.println(e);
             System.out.println("Customer not found");
@@ -314,10 +305,25 @@ public class CustomerManagementUI {
 
             //popup success
             JOptionPane.showMessageDialog(customerFrame, "Customer deleted successfully.", "Success!", JOptionPane.INFORMATION_MESSAGE);
+            clearFields();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(customerFrame, "Customer not found.", "Error!", JOptionPane.ERROR_MESSAGE);
             System.out.println(e);
         }
+    }
+
+    private void clearFields()
+    {
+        nameField.setText("");
+        phoneField.setText("");
+        emailField.setText("");
+        streetField.setText("");
+        cityField.setText("");
+        stateField.setText("");
+        zipCodeField.setText("");
+        orderDateField.setText("");
+        itemField.setText("");
+        priceField.setText("");
     }
 
     public static void main(String[] args) {
