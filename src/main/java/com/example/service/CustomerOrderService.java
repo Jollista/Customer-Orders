@@ -2,7 +2,7 @@ package com.example.service;
 
 import com.example.dao.CustomerOrderDAO;
 import com.example.model.Customer;
-import com.example.model.CustomerOrder;
+import com.example.model.Customer_order;
 
 public class CustomerOrderService {
     private CustomerOrderDAO customerOrderDAO;
@@ -11,11 +11,11 @@ public class CustomerOrderService {
         this.customerOrderDAO = new CustomerOrderDAO();
     }
 
-    public void addCustomerOrder(CustomerOrder customerOrder) {
+    public void addCustomerOrder(Customer_order customerOrder) {
         customerOrderDAO.saveCustomerOrder(customerOrder);
     }
 
-    public CustomerOrder getOrder(int id)
+    public Customer_order getOrder(int id)
     {
         return customerOrderDAO.getOrder(id);
     }

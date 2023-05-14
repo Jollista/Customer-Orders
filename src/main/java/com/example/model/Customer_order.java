@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "customer_order")
-public class CustomerOrder {
+public class Customer_order {
     @Id
     @Column(name = "number")
     private int number;

@@ -1,13 +1,13 @@
 package com.example.dao;
 
-import com.example.model.CustomerOrder;
+import com.example.model.Customer_order;
 import com.example.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 public class CustomerOrderDAO {
-    public void saveCustomerOrder (CustomerOrder customerOrder) {
+    public void saveCustomerOrder (Customer_order customerOrder) {
         Transaction transaction = null;
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -24,15 +24,15 @@ public class CustomerOrderDAO {
         }
     }
 
-    public CustomerOrder getOrder (int number)
+    public Customer_order getOrder (int number)
     {
         Transaction transaction = null;
-        CustomerOrder order = null;
+        Customer_order order = null;
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
-            order = session.get(CustomerOrder.class, number);
+            order = session.get(Customer_order.class, number);
 
             transaction.commit();
         } catch (Exception e) {
@@ -50,7 +50,7 @@ public class CustomerOrderDAO {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             session.beginTransaction();
             //update customer with hql
-            String hql = "UPDATE Customer_Order SET date = :newDate, item = :newItem, price = :newPrice, customer_id = :newCustomerID WHERE number = :orderNumber";
+            String hql = "UPDATE Customer_order SET date = :newDate, item = :newItem, price = :newPrice, customer_id = :newCustomerID WHERE number = :orderNumber";
             Query query = session.createQuery(hql);
             query.setParameter("newDate", date);
             query.setParameter("newItem", item);
@@ -71,8 +71,8 @@ public class CustomerOrderDAO {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             session.beginTransaction();
             //get customer with hql
-            String hql = "DELETE FROM Customer_Order WHERE number = :orderNumber";
-            Query<CustomerOrder> query = session.createQuery(hql);
+            String hql = "DELETE FROM Customer_order WHERE number = :orderNumber";
+            Query<Customer_order> query = session.createQuery(hql);
             query.setParameter("orderNumber", number);
 
             //execute update

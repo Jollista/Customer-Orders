@@ -2,7 +2,7 @@ package main.java.com.example.ui;
 
 import com.example.model.Address;
 import com.example.model.Customer;
-import com.example.model.CustomerOrder;
+import com.example.model.Customer_order;
 import com.example.service.AddressService;
 import com.example.service.CustomerOrderService;
 import com.example.service.CustomerService;
@@ -518,7 +518,7 @@ public class CustomerManagementUI {
     {
         int number = Integer.parseInt(numberField.getText());
         try {
-            CustomerOrder order = customerOrderService.getOrder(number);
+            Customer_order order = customerOrderService.getOrder(number);
             
             //set fields to customer/address info if found
             dateField.setText(order.getDate());
@@ -542,7 +542,7 @@ public class CustomerManagementUI {
         float price = Float.parseFloat(priceField.getText());
 
         //create order
-        CustomerOrder order = new CustomerOrder();
+        Customer_order order = new Customer_order();
         order.setNumber(number);
         order.setDate(date);
         order.setCustomer(customer);
@@ -613,6 +613,7 @@ public class CustomerManagementUI {
         cityField.setText("");
         stateField.setText("");
         zipCodeField.setText("");
+        numberField.setText("");
         dateField.setText("");
         customerComboBox.setSelectedItem(null);
         itemComboBox.setSelectedItem(null);
