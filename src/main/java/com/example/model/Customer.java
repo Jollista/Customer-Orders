@@ -63,4 +63,9 @@ public class Customer {
     public void setAddress(Address address) {
         this.address = address;
     }
+
+    public int getAddressId()
+    {
+        return address.getId();
+    }
 }

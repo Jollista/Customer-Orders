@@ -22,4 +22,25 @@ public class AddressDAO {
             e.printStackTrace();
         }
     }
+
+    public Address getAddress(int id)
+    {
+        Transaction transaction = null;
+        Address address = null;
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+
+            address = session.get(Address.class, id);
+
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+
+        return address;
+    }
 }

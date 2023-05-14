@@ -10,7 +10,12 @@ public class AddressService {
         this.addressDAO = new AddressDAO();
     }
 
-    public void saveAddress(Address address) {
+    public void addAddress(Address address) {
         addressDAO.saveAddress(address);
+    }
+
+    public Address getAddress(int id)
+    {
+        return addressDAO.getAddress(id);
     }
 }

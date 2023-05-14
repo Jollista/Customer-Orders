@@ -10,7 +10,12 @@ public class CustomerService {
         this.customerDAO = new CustomerDAO();
     }
 
-    public void saveCustomer(Customer customer) {
+    public void addCustomer(Customer customer) {
         customerDAO.saveCustomer(customer);
+    }
+
+    public Customer getCustomer(String name)
+    {
+        return customerDAO.getCustomer(name);
     }
 }

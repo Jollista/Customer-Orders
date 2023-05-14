@@ -173,15 +173,36 @@ public class CustomerManagementUI {
         customerButtonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 
         //create content
-        JButton saveButton = new JButton("Save");
-        saveButton.addActionListener(new ActionListener() {
+        JButton searchButton = new JButton("Search");
+        searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                saveCustomer();
+                searchCustomer();
+            }
+        });
+        JButton addButton = new JButton("Add");
+        addButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                addCustomer();
+            }
+        });
+        JButton updateButton = new JButton("Update");
+        updateButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                updateCustomer();
+            }
+        });
+        JButton deleteButton = new JButton("Delete");
+        deleteButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                deleteCustomer();
             }
         });
 
         //add to buttonPanel
-        customerButtonPanel.add(saveButton);
+        customerButtonPanel.add(searchButton);
+        customerButtonPanel.add(addButton);
+        customerButtonPanel.add(updateButton);
+        customerButtonPanel.add(deleteButton);
 
         //add to customerFrame
         customerFrame.add(customerPanel);
@@ -192,7 +213,28 @@ public class CustomerManagementUI {
         customerFrame.setVisible(true);
     }
 
-    private void saveCustomer() {
+    private void searchCustomer()
+    {
+        String name = nameField.getText();
+        try {
+            Customer customer = customerService.getCustomer(name);
+            Address address = addressService.getAddress(customer.getAddressId());
+            
+            //set fields to customer/address info if found
+            phoneField.setText(customer.getPhone());
+            emailField.setText(customer.getEmail());
+            streetField.setText(address.getStreet());
+            cityField.setText(address.getCity());
+            stateField.setText(address.getState());
+            zipCodeField.setText(address.getZipCode()+"");
+        } catch (Exception e) {
+            System.out.println(e);
+            System.out.println("Customer not found");
+            JOptionPane.showMessageDialog(customerFrame, "Customer not found.", "Error!", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void addCustomer() {
         String name = nameField.getText();
         String phone = phoneField.getText();
         String email = emailField.getText();
@@ -200,9 +242,6 @@ public class CustomerManagementUI {
         String city = cityField.getText();
         String state = stateField.getText();
         int zipCode = Integer.parseInt(zipCodeField.getText());
-        String orderDate = orderDateField.getText();
-        String item = itemField.getText();
-        float price = Float.parseFloat(priceField.getText());
 
         Address address = new Address();
         address.setStreet(street);
@@ -215,15 +254,11 @@ public class CustomerManagementUI {
         customer.setPhone(phone);
         customer.setEmail(email);
         customer.setAddress(address);
-        CustomerOrder customerOrder = new CustomerOrder();
-        customerOrder.setDate(orderDate);
-        customerOrder.setItem(item);
-        customerOrder.setPrice(price);
-        customerOrder.setCustomer(customer);
 
-        addressService.saveAddress(address);
-        customerService.saveCustomer(customer);
-        customerOrderService.saveCustomerOrder(customerOrder);
+        addressService.addAddress(address);
+        System.out.println("Customer address : " + address);
+        customerService.addCustomer(customer);
+        System.out.println("Customer : " + customer);
 
         // Clear fields after saving
         nameField.setText("");
@@ -236,6 +271,16 @@ public class CustomerManagementUI {
         orderDateField.setText("");
         itemField.setText("");
         priceField.setText("");
+    }
+
+    private void updateCustomer()
+    {
+        
+    }
+
+    private void deleteCustomer()
+    {
+
     }
 
     public static void main(String[] args) {
