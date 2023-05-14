@@ -42,7 +42,7 @@ public class CustomerManagementUI {
     private JComboBox customerComboBox;
     private Customer[] customers;
     private JComboBox itemComboBox;
-    private String[] items = {""};
+    private String[] items;
     private JTextField priceField;
 
     //frame for order information
@@ -378,7 +378,20 @@ public class CustomerManagementUI {
 
     private Customer[] getCustomers()
     {
-        return customerService.getCustomers();
+        customers = customerService.getCustomers();
+        return customers;
+    }
+
+    private int indexOfCustomer(Customer customer)
+    {
+        //return index of customer in customers
+        for (int i = 0; i < customers.length; i++)
+        {
+            if (customers[i].equals(customer))
+                return i;
+        }
+        //if customer isn't in customers, return -1
+        return -1;
     }
 
     /*
@@ -498,7 +511,7 @@ public class CustomerManagementUI {
             //set fields to customer/address info if found
             dateField.setText(order.getDate());
             System.out.println("Order's customer : " + order.getCustomer());
-            customerComboBox.setSelectedItem(order.getCustomer());
+            customerComboBox.setSelectedItem(customers[indexOfCustomer(order.getCustomer())]);
             itemComboBox.setSelectedItem(order.getItem());
             priceField.setText("" + order.getPrice());
             
