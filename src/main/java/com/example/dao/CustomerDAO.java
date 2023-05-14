@@ -28,10 +28,49 @@ public class CustomerDAO {
     public Customer getCustomer(String name)
     {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            //get customer with hql
             String hql = "FROM Customer WHERE name = :customerName";
             Query<Customer> query = session.createQuery(hql);
             query.setParameter("customerName", name);
+
+            //since it's using a non-primary key
             return query.uniqueResult();
+        }
+    }
+
+    public void updateCustomer(String name, String phone, String email)
+    {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            session.beginTransaction();
+            //update customer with hql
+            String hql = "UPDATE Customer SET phone = :newPhone, email = :newEmail WHERE name = :customerName";
+            Query query = session.createQuery(hql);
+            query.setParameter("newPhone", phone);
+            query.setParameter("newEmail", email);
+            query.setParameter("customerName", name);
+
+            //execute update
+            query.executeUpdate();
+
+            //commit if no errors
+            session.getTransaction().commit();
+        }
+    }
+
+    public void deleteCustomer(String name)
+    {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            session.beginTransaction();
+            //get customer with hql
+            String hql = "DELETE FROM Customer WHERE name = :customerName";
+            Query<Customer> query = session.createQuery(hql);
+            query.setParameter("customerName", name);
+
+            //execute update
+            query.executeUpdate();
+
+            //commit if no errors
+            session.getTransaction().commit();
         }
     }
 }

@@ -18,4 +18,17 @@ public class CustomerService {
     {
         return customerDAO.getCustomer(name);
     }
+
+    public Customer updateCustomer(String name, String phone, String email)
+    {
+        customerDAO.updateCustomer(name, phone, email);
+        return getCustomer(name);
+    }
+
+    public Customer deleteCustomer(String name)
+    {
+        Customer cust = customerDAO.getCustomer(name);
+        customerDAO.deleteCustomer(name);
+        return cust;
+    }
 }

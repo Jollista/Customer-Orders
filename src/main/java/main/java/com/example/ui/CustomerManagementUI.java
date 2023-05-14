@@ -260,6 +260,9 @@ public class CustomerManagementUI {
         customerService.addCustomer(customer);
         System.out.println("Customer : " + customer);
 
+        //Show popup
+        JOptionPane.showMessageDialog(customerFrame, "Customer added successfully.", "Success!", JOptionPane.INFORMATION_MESSAGE);
+
         // Clear fields after saving
         nameField.setText("");
         phoneField.setText("");
@@ -275,12 +278,46 @@ public class CustomerManagementUI {
 
     private void updateCustomer()
     {
-        
+        String name = nameField.getText();
+        try {            
+            //get fields
+            String phone = phoneField.getText();
+            String email = emailField.getText();
+            String street = streetField.getText();
+            String city = cityField.getText();
+            String state = stateField.getText();
+            int zipCode = Integer.parseInt(zipCodeField.getText());
+
+            //update customer information
+            Customer customer = customerService.updateCustomer(name, phone, email);
+            addressService.updateAddress(customer.getAddressId(), street, city, state, zipCode);
+            
+            //Show popup
+            JOptionPane.showMessageDialog(customerFrame, "Customer updated successfully.", "Success!", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (Exception e) {
+            System.out.println(e);
+            System.out.println("Customer not found");
+            JOptionPane.showMessageDialog(customerFrame, "Customer not found.", "Error!", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void deleteCustomer()
     {
+        //get name
+        String name = nameField.getText();
+        try {
+            //delete customer
+            Customer customer = customerService.deleteCustomer(name);
+            //use reference to deleted customer to delete address
+            addressService.deleteAddress(customer.getAddressId());
 
+            //popup success
+            JOptionPane.showMessageDialog(customerFrame, "Customer deleted successfully.", "Success!", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(customerFrame, "Customer not found.", "Error!", JOptionPane.ERROR_MESSAGE);
+            System.out.println(e);
+        }
     }
 
     public static void main(String[] args) {

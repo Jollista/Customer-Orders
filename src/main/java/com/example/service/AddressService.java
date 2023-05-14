@@ -18,4 +18,17 @@ public class AddressService {
     {
         return addressDAO.getAddress(id);
     }
+
+    public Address updateAddress(int id, String street, String city, String state, int zipCode)
+    {
+        addressDAO.updateAddress(id, street, city, state, zipCode);
+        return getAddress(id);
+    }
+
+    public Address deleteAddress(int id)
+    {
+        Address addr = addressDAO.getAddress(id);
+        addressDAO.deleteAddress(id);
+        return addr;
+    }
 }
