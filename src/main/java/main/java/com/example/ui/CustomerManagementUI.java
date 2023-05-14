@@ -51,15 +51,8 @@ public class CustomerManagementUI {
         this.customerOrderService = new CustomerOrderService();
     }
 
-    public void createAndShowGUI() 
+    public void createCustomerPanel()
     {
-        //Customer information
-        customerFrame = new JFrame("Customer");
-        customerFrame.setSize(1000,500);
-        customerFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //customerFrame.setLayout();
-        customerFrame.setLayout(new GridLayout(3,1));
-
         //Customer information
         customerPanel = new JPanel();
         customerPanel.setSize(1000,200);
@@ -112,7 +105,10 @@ public class CustomerManagementUI {
 	    constraints.gridx = 1;
 	    constraints.gridy = 3;
         customerPanel.add(emailField, constraints);
+    }
 
+    public void createAddressPanel()
+    {
         //Address information
         addressPanel = new JPanel();
         addressPanel.setLayout(new GridBagLayout());
@@ -132,14 +128,12 @@ public class CustomerManagementUI {
         zipCodeField = new JTextField();
         zipCodeField.setColumns(10);
 
-        JLabel orderDateLabel = new JLabel("Order Date:");
-        orderDateField = new JTextField();
-        JLabel itemLabel = new JLabel("Item:");
-        itemField = new JTextField();
-        JLabel priceLabel = new JLabel("Price:");
-        priceField = new JTextField();
-
         //add to panel
+        GridBagConstraints constraints = new GridBagConstraints();
+	    constraints.ipady = 10;
+        constraints.ipadx = 300;
+	    constraints.weightx = 1.0;
+	    constraints.gridwidth = 1;
 	    constraints.gridx = 0;
 	    constraints.gridy = 0;
         addressPanel.add(streetLabel, constraints);
@@ -167,7 +161,10 @@ public class CustomerManagementUI {
         constraints.gridx = 1;
 	    constraints.gridy = 3;
         addressPanel.add(zipCodeField, constraints);
+    }
 
+    public void createCustomerButtonPanel()
+    {
         //Customer buttons
         customerButtonPanel = new JPanel();
         customerButtonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -203,14 +200,38 @@ public class CustomerManagementUI {
         customerButtonPanel.add(addButton);
         customerButtonPanel.add(updateButton);
         customerButtonPanel.add(deleteButton);
+    }
+
+    //create JFrames and show them
+    public void createAndShowGUI() 
+    {
+        //Customer information
+        customerFrame = new JFrame("Customer");
+        customerFrame.setSize(1000,500);
+        customerFrame.setLocation(20, 250);
+        customerFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        customerFrame.setLayout(new BoxLayout(customerFrame.getContentPane(), BoxLayout.Y_AXIS));
+
+        //create panels
+        createCustomerPanel();
+        createAddressPanel();
+        createCustomerButtonPanel();
 
         //add to customerFrame
         customerFrame.add(customerPanel);
         customerFrame.add(addressPanel);
         customerFrame.add(customerButtonPanel);
 
+        //Order information
+        orderFrame = new JFrame("Order");
+        orderFrame.setSize(1000,500);
+        orderFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        orderFrame.setLayout(new BoxLayout(customerFrame.getContentPane(), BoxLayout.Y_AXIS));
+        //add to orderFrame
+
         //set visible
         customerFrame.setVisible(true);
+        orderFrame.setVisible(true);
     }
 
     private void searchCustomer()
