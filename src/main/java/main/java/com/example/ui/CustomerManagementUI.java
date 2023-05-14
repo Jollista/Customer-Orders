@@ -394,6 +394,18 @@ public class CustomerManagementUI {
         return -1;
     }
 
+    private int indexOfCustomer(int customerID)
+    {
+        //return index of customer in customers
+        for (int i = 0; i < customers.length; i++)
+        {
+            if (customers[i].getId() == customerID)
+                return i;
+        }
+        //if customer isn't in customers, return -1
+        return -1;
+    }
+
     /*
      * Database functions
      */
@@ -510,8 +522,8 @@ public class CustomerManagementUI {
             
             //set fields to customer/address info if found
             dateField.setText(order.getDate());
-            System.out.println("Order's customer : " + order.getCustomer());
-            customerComboBox.setSelectedItem(customers[indexOfCustomer(order.getCustomer())]);
+            System.out.println("Order's customer : " + order.getCustomerID());
+            customerComboBox.setSelectedItem(customers[indexOfCustomer(order.getCustomerID())]);
             itemComboBox.setSelectedItem(order.getItem());
             priceField.setText("" + order.getPrice());
             
@@ -538,7 +550,13 @@ public class CustomerManagementUI {
         order.setPrice(price);
 
         //save order
-        customerOrderService.saveCustomerOrder(order);
+        customerOrderService.addCustomerOrder(order);
+
+        System.out.println("Number : " + number);
+        System.out.println("Date : " + date);
+        System.out.println("Customer : " + customer);
+        System.out.println("Item : " + item);
+        System.out.println("Price : " + price);
 
         //Show popup
         JOptionPane.showMessageDialog(orderFrame, "Order added successfully.", "Success!", JOptionPane.INFORMATION_MESSAGE);
@@ -549,45 +567,39 @@ public class CustomerManagementUI {
 
     private void updateOrder()
     {
-        String name = nameField.getText();
+        int number = Integer.parseInt(numberField.getText());
         try {            
             //get fields
-            String phone = phoneField.getText();
-            String email = emailField.getText();
-            String street = streetField.getText();
-            String city = cityField.getText();
-            String state = stateField.getText();
-            int zipCode = Integer.parseInt(zipCodeField.getText());
+            String date = dateField.getText();
+            Customer customer = (Customer) customerComboBox.getSelectedItem();
+            String item = (String) itemComboBox.getSelectedItem();
+            float price = Float.parseFloat(priceField.getText());
 
             //update customer information
-            Customer customer = customerService.updateCustomer(name, phone, email);
-            addressService.updateAddress(customer.getAddressId(), street, city, state, zipCode);
+            customerOrderService.updateOrder(number, date, customer, item, price);
             
             //Show popup
-            JOptionPane.showMessageDialog(customerFrame, "Customer updated successfully.", "Success!", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(orderFrame, "Order updated successfully.", "Success!", JOptionPane.INFORMATION_MESSAGE);
             clearFields();
         } catch (Exception e) {
             System.out.println(e);
-            System.out.println("Customer not found");
-            JOptionPane.showMessageDialog(customerFrame, "Customer not found.", "Error!", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(orderFrame, "Order not found.", "Error!", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void deleteOrder()
     {
-        //get name
-        String name = nameField.getText();
+        //get number
+        int number = Integer.parseInt(numberField.getText());
         try {
-            //delete customer
-            Customer customer = customerService.deleteCustomer(name);
-            //use reference to deleted customer to delete address
-            addressService.deleteAddress(customer.getAddressId());
+            //delete order
+            customerOrderService.deleteOrder(number);
 
             //popup success
-            JOptionPane.showMessageDialog(customerFrame, "Customer deleted successfully.", "Success!", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(orderFrame, "Order deleted successfully.", "Success!", JOptionPane.INFORMATION_MESSAGE);
             clearFields();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(customerFrame, "Customer not found.", "Error!", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(orderFrame, "Order not found.", "Error!", JOptionPane.ERROR_MESSAGE);
             System.out.println(e);
         }
     }

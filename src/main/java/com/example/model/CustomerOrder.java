@@ -6,7 +6,6 @@ import javax.persistence.*;
 @Table(name = "customer_order")
 public class CustomerOrder {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "number")
     private int number;
 
@@ -19,7 +18,7 @@ public class CustomerOrder {
     @Column(name = "price")
     private float price;
 
-    @ManyToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
@@ -56,11 +55,25 @@ public class CustomerOrder {
         this.price = price;
     }
 
-    public Customer getCustomer() {
+    public Customer getCustomer()
+    {
         return customer;
     }
 
-    public void setCustomer(Customer customer) {
+    public void setCustomer(Customer customer)
+    {
         this.customer = customer;
+    }
+
+    public int getCustomerID() {
+        return customer.getId();
+    }
+
+    public void setCustomerID(Customer customer) {
+        customer.setId(customer.getId());
+    }
+
+    public void setCustomerID(int customerID) {
+        customer.setId(customerID);
     }
 }
