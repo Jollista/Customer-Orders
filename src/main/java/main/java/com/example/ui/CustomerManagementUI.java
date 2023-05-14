@@ -40,7 +40,9 @@ public class CustomerManagementUI {
     private JTextField numberField;
     private JTextField dateField;
     private JComboBox customerComboBox;
+    private Customer[] customers;
     private JComboBox itemComboBox;
+    private String[] items = {""};
     private JTextField priceField;
 
     //frame for order information
@@ -230,10 +232,10 @@ public class CustomerManagementUI {
         JLabel dateLabel = new JLabel("Date");
         dateField = new JTextField();
         JLabel customerLabel = new JLabel("Customer");
-        Customer[] customers = getCustomers();
+        customers = getCustomers();
         customerComboBox = new JComboBox<>(customers);
         JLabel itemLabel = new JLabel("Item");
-        String[] items = {"Caesar Salad", "Greek Salad", "Cobb Salad"};
+        items = new String[]{"Caesar Salad", "Greek Salad", "Cobb Salad"};
         itemComboBox = new JComboBox<>(items);
         JLabel priceLabel = new JLabel("Price ($)");
         priceField = new JTextField();
@@ -489,53 +491,44 @@ public class CustomerManagementUI {
 
     private void searchOrder()
     {
-        String name = nameField.getText();
+        int number = Integer.parseInt(numberField.getText());
         try {
-            Customer customer = customerService.getCustomer(name);
-            Address address = addressService.getAddress(customer.getAddressId());
+            CustomerOrder order = customerOrderService.getOrder(number);
             
             //set fields to customer/address info if found
-            phoneField.setText(customer.getPhone());
-            emailField.setText(customer.getEmail());
-            streetField.setText(address.getStreet());
-            cityField.setText(address.getCity());
-            stateField.setText(address.getState());
-            zipCodeField.setText(address.getZipCode()+"");
+            dateField.setText(order.getDate());
+            System.out.println("Order's customer : " + order.getCustomer());
+            customerComboBox.setSelectedItem(order.getCustomer());
+            itemComboBox.setSelectedItem(order.getItem());
+            priceField.setText("" + order.getPrice());
+            
         } catch (Exception e) {
             System.out.println(e);
-            System.out.println("Customer not found");
-            JOptionPane.showMessageDialog(customerFrame, "Customer not found.", "Error!", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(orderFrame, "Order not found.", "Error!", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void addOrder() {
-        String name = nameField.getText();
-        String phone = phoneField.getText();
-        String email = emailField.getText();
-        String street = streetField.getText();
-        String city = cityField.getText();
-        String state = stateField.getText();
-        int zipCode = Integer.parseInt(zipCodeField.getText());
+        //get fields
+        int number = Integer.parseInt(numberField.getText());
+        String date = dateField.getText();
+        Customer customer = (Customer) customerComboBox.getSelectedItem();
+        String item = (String) itemComboBox.getSelectedItem();
+        float price = Float.parseFloat(priceField.getText());
 
-        Address address = new Address();
-        address.setStreet(street);
-        address.setCity(city);
-        address.setState(state);
-        address.setZipCode(zipCode);
+        //create order
+        CustomerOrder order = new CustomerOrder();
+        order.setNumber(number);
+        order.setDate(date);
+        order.setCustomer(customer);
+        order.setItem(item);
+        order.setPrice(price);
 
-        Customer customer = new Customer();
-        customer.setName(name);
-        customer.setPhone(phone);
-        customer.setEmail(email);
-        customer.setAddress(address);
-
-        addressService.addAddress(address);
-        System.out.println("Customer address : " + address);
-        customerService.addCustomer(customer);
-        System.out.println("Customer : " + customer);
+        //save order
+        customerOrderService.saveCustomerOrder(order);
 
         //Show popup
-        JOptionPane.showMessageDialog(customerFrame, "Customer added successfully.", "Success!", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(orderFrame, "Order added successfully.", "Success!", JOptionPane.INFORMATION_MESSAGE);
 
         // Clear fields after saving
         clearFields();
@@ -596,6 +589,9 @@ public class CustomerManagementUI {
         stateField.setText("");
         zipCodeField.setText("");
         dateField.setText("");
+        customerComboBox.setSelectedItem(null);
+        itemComboBox.setSelectedItem(null);
+        priceField.setText("");
     }
 
     /*

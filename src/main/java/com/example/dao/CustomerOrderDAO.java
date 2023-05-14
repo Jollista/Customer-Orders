@@ -22,4 +22,25 @@ public class CustomerOrderDAO {
             e.printStackTrace();
         }
     }
+
+    public CustomerOrder getOrder(int number)
+    {
+        Transaction transaction = null;
+        CustomerOrder order = null;
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+
+            order = session.get(CustomerOrder.class, number);
+
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+
+        return order;
+    }
 }

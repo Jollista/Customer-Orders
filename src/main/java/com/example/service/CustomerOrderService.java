@@ -13,4 +13,9 @@ public class CustomerOrderService {
     public void saveCustomerOrder(CustomerOrder customerOrder) {
         customerOrderDAO.saveCustomerOrder(customerOrder);
     }
+
+    public CustomerOrder getOrder(int id)
+    {
+        return customerOrderDAO.getOrder(id);
+    }
 }

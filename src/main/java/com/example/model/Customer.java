@@ -73,4 +73,14 @@ public class Customer {
     {
         return "" + name;
     }
+
+    public int compareTo(Customer other)
+    {
+        return id - other.id;
+    }
+
+    public boolean equals(Customer other)
+    {
+        return compareTo(other) == 0;
+    }
 }
